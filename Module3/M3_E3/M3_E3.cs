@@ -19,9 +19,9 @@ void CreerCommandes()
 {
     while (true)
     {
-        int tempsRepos = rng.Next(2000) + 2000;
+        int tempsRepos = rng.Next(2000, 4000);
         Thread.Sleep(tempsRepos);
-        int tempsExecution = rng.Next(1000) + 3000;
+        int tempsExecution = rng.Next(1000, 3999);
         Commande nouvelleCommande = new Commande(tempsExecution);
         string creationCommande = $"Commande {nouvelleCommande.NoCommande} est créée, temps exécution {nouvelleCommande.TempExecution}";
         Console.WriteLine(creationCommande);
