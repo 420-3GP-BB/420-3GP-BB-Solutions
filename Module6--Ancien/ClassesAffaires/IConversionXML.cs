@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace Utilitaires
 {
-    public interface IXMLSerializable
+    public interface IConversionXML
     {
         public XmlElement ToXML(XmlDocument doc);
         public void FromXML(XmlElement elem);

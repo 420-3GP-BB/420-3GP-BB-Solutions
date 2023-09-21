@@ -11,7 +11,7 @@ using Utilitaires;
 
 namespace Equipes
 {
-    public class Equipe : IXMLSerializable
+    public class Equipe : IConversionXML
     {
         public ObservableCollection<string> Joueurs
         {

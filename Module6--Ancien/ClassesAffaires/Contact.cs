@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Contacts
 {
-    public class Contact :IXMLSerializable
+    public class Contact :IConversionXML
     {
         public String Nom
         {
