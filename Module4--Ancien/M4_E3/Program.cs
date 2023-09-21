@@ -1,5 +1,7 @@
 ﻿using System.Xml;
 
+// Programme qui illustre l'ajout d'un élément dans un fichier XML
+
 char DIR_SEPARATOR = Path.DirectorySeparatorChar;
 
 string pathFichier = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}{DIR_SEPARATOR}" +

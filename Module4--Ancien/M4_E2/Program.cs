@@ -1,5 +1,6 @@
-﻿using System.Runtime.ExceptionServices;
-using System.Xml;
+﻿using System.Xml;
+
+// Programme qui permet de lire le fichier contacts.xml et d'afficher des informations
 
 char DIR_SEPARATOR = Path.DirectorySeparatorChar;
 
@@ -10,7 +11,7 @@ string pathFichier = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDo
 if (! File.Exists(pathFichier))
 {
     Console.Error.WriteLine($"Le fichier {pathFichier} n'existe pas");
-    System.Environment.Exit(1);
+    System.Environment.Exit(1);   // On quitte le programme avec un code d'erreur
 }
 
 

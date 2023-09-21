@@ -58,7 +58,7 @@ void SauvegarderContacts(List<Contact> lesContacts, string pathFichier)
     
     foreach(Contact c in lesContacts)
     {
-        XmlElement element = c.ToXML(document);
+        XmlElement element = c.VersXML(document);
         racine.AppendChild(element);
     }
     document.Save(pathFichier);

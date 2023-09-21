@@ -1,4 +1,3 @@
-using System.Reflection.Metadata;
 using System.Xml;
 
 namespace Contacts
@@ -21,10 +20,20 @@ namespace Contacts
         public void Setup()
         {
             // On essaie autant que possible d'éviter l'ouverture de fichiers dans le cadre des tests.
+            // Le @ devant la chaine de caractères permet d'éviter d'avoir à échapper les guillemets
+            // et de faire une chaine de caractères sur plusieurs lignes
             contact = @$"<contact nom=""{nom}"" prenom=""{prenom}"">
-                <adresse numero = ""{numero}"" rue=""{rue}"" />
-                <description>{description}</description>
-              </contact>";
+                            <adresse numero = ""{numero}"" rue=""{rue}"" />
+                            <description>{description}</description>
+                         </contact>";
+
+        }
+
+        void ChargerContactXML()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(contact);
+            leContact = new Contact(doc.DocumentElement);
         }
 
         [Test]
@@ -36,13 +45,6 @@ namespace Contacts
 
             // ASSERT
             Assert.AreEqual(nom, leContact.Nom);
-        }
-
-        void ChargerContactXML()
-        {
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(contact);
-            leContact = new Contact(doc.DocumentElement);
         }
 
         [Test]

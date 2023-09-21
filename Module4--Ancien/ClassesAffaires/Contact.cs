@@ -4,11 +4,11 @@ using System.Xml;
 
 namespace Contacts
 {
-    public class Contact :IXMLSerializable
+    public class Contact :IConversionXML
     {
         public Contact(XmlElement elementContact)
         {
-            FromXML(elementContact);
+            DeXML(elementContact);
         }
 
 
@@ -66,7 +66,7 @@ namespace Contacts
         /// </contact>
         /// 
         /// <param name="elem">L'élément XML</param>
-        public void FromXML(XmlElement elem)
+        public void DeXML(XmlElement elem)
         {
             Nom = elem.GetAttribute("nom");
             Prenom = elem.GetAttribute("prenom");
@@ -84,7 +84,7 @@ namespace Contacts
         /// </summary>
         /// <param name="doc">Le document pour créer l'élément</param>
         /// <returns>L'élément</returns>
-        public XmlElement ToXML(XmlDocument doc)
+        public XmlElement VersXML(XmlDocument doc)
         {
             XmlElement elementContact = doc.CreateElement("contact");
             elementContact.SetAttribute("nom", Nom);
