@@ -1,5 +1,9 @@
 ﻿using System.IO;
 
+// Programme qui permet de copier le fichier contacts.xml dans le dossier Fichiers-3GP.
+// Accessoirement, il illustre comment on peut créer des dossiers et des fichiers de 
+// façon portable.
+
 char DIR_SEPARATOR = Path.DirectorySeparatorChar;   // Permet d'avoir un séparateur portable
 
 Console.WriteLine("Dans cet exercice, il fallait créer le fichier XML dans un dossier Fichiers-3GP.");
@@ -14,13 +18,16 @@ else
     Console.WriteLine("Aucun changement n'est effectué");
 }
 
+// Permet de confirmer si l'utilisateur veut effectuer une opération
 bool ConfirmerOperation(string description)
 {
     Console.Write($"{description} (Oui pour confirmer)? ");
     string? reponse = Console.ReadLine();
-    return reponse.Equals("Oui");
+    return reponse != null && reponse.Equals("Oui");
 }
 
+// Permet de copier le fichier dans le dossier Fichiers-3GP.
+// Le dossier est créé s'il n'existe pas.
 void CopierFichier(string nomFichier)
 {
     string pathMesDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
