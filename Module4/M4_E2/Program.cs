@@ -23,8 +23,6 @@ document.Load(pathFichier);
 // Récupération de la racine
 XmlElement root = document.DocumentElement;
 
-root.AppendChild(exemple);
-
 // Affichage du nombre d'éléments avec la balise contact
 XmlNodeList elements = root.GetElementsByTagName("contact");
 Console.WriteLine($"Il y a {elements.Count} contacts dans le fichier.");
