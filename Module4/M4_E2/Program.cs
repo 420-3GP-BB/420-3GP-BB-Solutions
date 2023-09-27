@@ -19,8 +19,11 @@ if (! File.Exists(pathFichier))
 XmlDocument document = new XmlDocument();
 document.Load(pathFichier);
 
+
 // Récupération de la racine
 XmlElement root = document.DocumentElement;
+
+root.AppendChild(exemple);
 
 // Affichage du nombre d'éléments avec la balise contact
 XmlNodeList elements = root.GetElementsByTagName("contact");
@@ -28,15 +31,11 @@ Console.WriteLine($"Il y a {elements.Count} contacts dans le fichier.");
 
 // Affichage du nombre de contacts qui ont Simpson comme nom de famille
 int nombreSimpsons = 0;
-foreach (XmlNode node in elements)
+foreach (XmlElement element in elements)
 {
-    XmlElement? element = node as XmlElement;
-    if (element != null)
+    if (element.GetAttribute("nom").Equals("Simpson"))
     {
-        if (element.GetAttribute("nom").Equals("Simpson"))
-        {
-            nombreSimpsons++;
-        }
+        nombreSimpsons++;
     }
 }
 
@@ -44,17 +43,13 @@ Console.WriteLine($"Il y a {nombreSimpsons} Simpson dans les contacts.");
 
 // On affiche l'adresse de Ned Flanders
 XmlElement? elementNed = null;
-foreach (XmlNode node in elements)
+foreach (XmlElement element in elements)
 {
-    XmlElement? element = node as XmlElement;
-    if (element != null)
+    if (element.GetAttribute("nom").Equals("Flanders")
+        && element.GetAttribute("prenom").Equals("Ned"))
     {
-        if (element.GetAttribute("nom").Equals("Flanders") 
-            && element.GetAttribute("prenom").Equals("Ned"))
-        {
-            elementNed = element;
-            break;
-        }
+        elementNed = element;
+        break;
     }
 }
 
@@ -68,17 +63,13 @@ if (elementNed != null)
 
 // Affichage de la description de monsieur Burns
 XmlElement? elementBurns = null;
-foreach (XmlNode node in elements)
+foreach (XmlElement element in elements)
 {
-    XmlElement? element = node as XmlElement;
-    if (element != null)
+    if (element.GetAttribute("nom").Equals("Burns")
+        && element.GetAttribute("prenom").Equals("Charles Montgomery"))
     {
-        if (element.GetAttribute("nom").Equals("Burns")
-            && element.GetAttribute("prenom").Equals("Charles Montgomery"))
-        {
-            elementBurns = element;
-            break;
-        }
+        elementBurns = element;
+        break;
     }
 }
 
