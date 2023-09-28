@@ -1,4 +1,4 @@
-﻿using System.Xml;
+﻿using System.Xml.Linq;
 
 // Programme qui permet de lire le fichier contacts.xml et d'afficher des informations
 
@@ -16,63 +16,33 @@ if (! File.Exists(pathFichier))
 
 
 // Chargement du fichier
-XmlDocument document = new XmlDocument();
-document.Load(pathFichier);
+XElement racine = XElement.Load(pathFichier);
 
+int nombreContacts = racine.Elements("contact").Count();
+Console.WriteLine($"Il y a {nombreContacts} contacts dans le fichier.");
 
-// Récupération de la racine
-XmlElement root = document.DocumentElement;
-
-// Affichage du nombre d'éléments avec la balise contact
-XmlNodeList elements = root.GetElementsByTagName("contact");
-Console.WriteLine($"Il y a {elements.Count} contacts dans le fichier.");
-
-// Affichage du nombre de contacts qui ont Simpson comme nom de famille
-int nombreSimpsons = 0;
-foreach (XmlElement element in elements)
-{
-    if (element.GetAttribute("nom").Equals("Simpson"))
-    {
-        nombreSimpsons++;
-    }
-}
-
+int nombreSimpsons = racine.Elements("contact")
+                           .Where(c => c.Attribute("nom").Value == "Simpson")
+                           .Count();
 Console.WriteLine($"Il y a {nombreSimpsons} Simpson dans les contacts.");
 
-// On affiche l'adresse de Ned Flanders
-XmlElement? elementNed = null;
-foreach (XmlElement element in elements)
-{
-    if (element.GetAttribute("nom").Equals("Flanders")
-        && element.GetAttribute("prenom").Equals("Ned"))
-    {
-        elementNed = element;
-        break;
-    }
-}
-
+XElement? elementNed = racine.Elements("contact")
+                            .Where(c => c.Attribute("nom").Value == "Flanders"
+                                        && c.Attribute("prenom").Value == "Ned")
+                            .FirstOrDefault();
 if (elementNed != null)
 {
-    XmlElement adresse = elementNed["adresse"];
-    string numero = adresse.GetAttribute("numero");
-    string rue = adresse.GetAttribute("rue");
+    string numero = elementNed.Element("adresse").Attribute("numero").Value;
+    string rue = elementNed.Element("adresse").Attribute("rue").Value;
     Console.WriteLine($"L'adresse de Ned Flanders est {numero} {rue}.");
 }
 
-// Affichage de la description de monsieur Burns
-XmlElement? elementBurns = null;
-foreach (XmlElement element in elements)
-{
-    if (element.GetAttribute("nom").Equals("Burns")
-        && element.GetAttribute("prenom").Equals("Charles Montgomery"))
-    {
-        elementBurns = element;
-        break;
-    }
+XElement? elementBurns= racine.Elements("contact")
+                             .Where(c => c.Attribute("nom").Value == "Burns"
+                                         && c.Attribute("prenom").Value == "Charles Montgomery")
+                             .FirstOrDefault();
+if (elementBurns != null)
+{     string description = elementBurns.Element("description").Value;
+    Console.WriteLine($"La description de monsier Burns est:\n{description.Trim()}");
 }
 
-if (elementBurns != null)
-{
-    XmlElement description = elementBurns["description"];
-    Console.WriteLine($"La description de monsier Burns est:\n{description.InnerText.Trim()}");
-}
