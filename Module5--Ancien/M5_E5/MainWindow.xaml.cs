@@ -1,37 +1,26 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-
 using Microsoft.Win32;
 
-namespace Exercice7
+namespace M5_E5
 {
     public partial class MainWindow : Window
     {
-        private string pathFichier;
+        private string _pathFichier;  // Chemin du fichier ouvert
 
         public MainWindow()
         {
             InitializeComponent();
-            pathFichier = "";
+            _pathFichier = "";
         }
 
+        // Vide le contenu du fichier
         private void BoutonVider_Click(object sender, RoutedEventArgs e)
         {
-            ContenuFichier.Text = "";
+            _contenuFichier.Text = "";
         }
 
+        // Ouvre un fichier
         private void ChargerFichier_Click(object sender, RoutedEventArgs e)
         {
             bool? result;
@@ -41,14 +30,15 @@ namespace Exercice7
 
             if (result.Value)
             {
-                pathFichier = fileDialog.FileName;
-                StreamReader leFichier = File.OpenText(pathFichier);
-                NomFichier.Text = Path.GetFileName(pathFichier);
-                ContenuFichier.Text = leFichier.ReadToEnd();
+                _pathFichier = fileDialog.FileName;
+                StreamReader leFichier = File.OpenText(_pathFichier);
+                _nomFichier.Text = Path.GetFileName(_pathFichier);
+                _contenuFichier.Text = leFichier.ReadToEnd();
                 leFichier.Close();
             }
         }
 
+        // Sauvegarde le fichier. Permet de donner un nouveau nom
         private void SauvegarderSous_Click(object sender, RoutedEventArgs e)
         {
             bool? result;
@@ -57,14 +47,16 @@ namespace Exercice7
 
             if(result.Value)
             {
-                pathFichier = fileDialog.FileName;
+                _pathFichier = fileDialog.FileName;
                 SauvegarderFichier();
             }
         }
 
+        // Sauvegarde le fichier. Utilise le nom du fichier ouvert.
+        // Si aucun fichier n'est ouvert, appelle SauvegarderSous_Click
         private void Sauvegarder_Click(object sender, RoutedEventArgs e)
         {
-            if (pathFichier.Equals(""))
+            if (_pathFichier.Equals(""))
             {
                 SauvegarderSous_Click(sender, e);
             }
@@ -74,11 +66,12 @@ namespace Exercice7
             }
         }
 
+        // Sauvegarde le fichier
         private void SauvegarderFichier()
         {
-            StreamWriter leFichier = File.CreateText(pathFichier);
-            NomFichier.Text = Path.GetFileName(pathFichier);
-            leFichier.Write(ContenuFichier.Text);
+            StreamWriter leFichier = File.CreateText(_pathFichier);
+            _nomFichier.Text = Path.GetFileName(_pathFichier);
+            leFichier.Write(_contenuFichier.Text);
             leFichier.Close();
         }
     }

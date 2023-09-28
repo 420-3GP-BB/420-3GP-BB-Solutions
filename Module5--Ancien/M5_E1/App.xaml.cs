@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Exercice1
+namespace M5_E1
 {
     /// <summary>
     /// Interaction logic for App.xaml

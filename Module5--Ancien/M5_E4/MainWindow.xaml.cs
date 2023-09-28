@@ -1,19 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace Exercice5
+namespace M5_E4
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -27,7 +15,14 @@ namespace Exercice5
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Bonjour " + ChampNom.Text);
+            if (String.IsNullOrEmpty(_champNom.Text))
+            {
+                MessageBox.Show("Veuillez saisir un nom");
+            }
+            else
+            {
+                MessageBox.Show("Bonjour " + _champNom.Text);
+            }
         }
     }
 }

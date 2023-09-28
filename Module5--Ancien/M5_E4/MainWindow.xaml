@@ -1,9 +1,9 @@
-﻿<Window x:Class="Exercice5.MainWindow"
+﻿<Window x:Class="M5_E4.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Exercice5"
+        xmlns:local="clr-namespace:M5_E4"
         mc:Ignorable="d"
         Title="Dire bonjour" Height="450" Width="800">
     <Grid>
@@ -22,7 +22,7 @@
                    Grid.Row="0"
                    Grid.Column="0"/>
 
-        <TextBox Name="ChampNom"
+        <TextBox Name="_champNom"
                  Width="250"
                  HorizontalAlignment="Left"
                  VerticalAlignment="Center"
@@ -31,10 +31,11 @@
                  Margin="10"/>
 
         <Button Content="Dire Bonjour"
-                Height="30"
+                HorizontalAlignment="Left"
+                Width="100"
+                Margin="10"
                 Grid.Row="1"
                 Grid.Column="1" 
-                Margin="266,5,361,5"
                 Click="Button_Click"/>
     </Grid>
 </Window>
