@@ -7,7 +7,6 @@ namespace Contacts
     {
         private string nom = "Simpson";
         private string prenom = "Homer";
-        //        private string numero = "742";
         private int numero = 742;
         private string rue = "Evergreen Terrace";
         private string description = "Homer Jay Simpson est le principal personnage fictif de la série télévisée d'animation Les Simpson et le père de la famille du même nom.";

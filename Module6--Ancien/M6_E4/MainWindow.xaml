@@ -24,24 +24,12 @@
         <CommandBinding Command="{x:Static local:MainWindow.EnregistrerSousFichierCmd}"
                         Executed="EnregisterSous_Executed"
                         CanExecute="EnregisterSous_CanExecute"/>
-        <CommandBinding Command="{x:Static local:MainWindow.AjouterContactCmd}"
-                        Executed="AjouterContact_Executed"
-                        CanExecute="AjouterContact_CanExecute"/>
-        <CommandBinding Command="{x:Static local:MainWindow.RetirerContactCmd}"
-                        Executed="RetirerContact_Executed"
-                        CanExecute="RetirerContact_CanExecute"/>
-        <CommandBinding Command="{x:Static local:MainWindow.NouveauContactCmd}"
-                        Executed="NouveauContact_Executed"
-                        CanExecute="NouveauContact_CanExecute"/>
-        <CommandBinding Command="{x:Static local:MainWindow.AnnulerNouveau}"
-                        Executed="AnnulerContact_Executed"
-                        CanExecute="AnnulerContact_CanExecute"/>
         <CommandBinding Command="{x:Static local:MainWindow.AllerProchain}"
                         Executed="AllerProchain_Executed"
                         CanExecute="AllerProchain_CanExecute"/>
         <CommandBinding Command="{x:Static local:MainWindow.AllerPrecedent}"
-                        Executed="AllerPrecedent_Executed"
-                        CanExecute="AllerPrecedent_CanExecute"/>
+                       Executed="AllerPrecedent_Executed"
+                       CanExecute="AllerPrecedent_CanExecute"/>
     </Window.CommandBindings>
 
     <Window.InputBindings>
@@ -144,28 +132,24 @@
                 <StackPanel>
                     <Button Name="BoutonAjouter"
                             Style="{StaticResource boutonBleu}"
-                            Command="{x:Static local:MainWindow.AjouterContactCmd}"
                             Content="Ajouter"
                             HorizontalAlignment="Center"
                             Margin="0, 10, 0, 0"/>
 
                     <Button Name="BoutonRetirer"
                             Style="{StaticResource boutonBleu}"
-                            Command="{x:Static local:MainWindow.RetirerContactCmd}"
                             Content="Retirer"
                             HorizontalAlignment="Center"
                             Margin="0, 10, 0, 0"/>
 
                     <Button Name="BoutonNouveau"
                             Style="{StaticResource boutonBleu}"
-                            Command="{x:Static local:MainWindow.NouveauContactCmd}"
                             Content="Nouveau"
                             HorizontalAlignment="Center"
                             Margin="0, 10, 0, 0"/>
 
                     <Button Name="BoutonAnnuler"
                             Style="{StaticResource boutonBleu}"
-                            Command="{x:Static local:MainWindow.AnnulerNouveau}"
                             Content="Annuler"
                             HorizontalAlignment="Center"
                             Margin="0, 10, 0, 0"/>
@@ -198,21 +182,22 @@
             <!-- Boutons du bas -->
             <Button Name="BoutonProchain"
                 Style="{StaticResource boutonBleu}"
-                Command="{x:Static local:MainWindow.AllerProchain}"
                 Content="Prochain"
                 Grid.Row="1"
                 Grid.Column="1"
                 Height="Auto"
-                Margin="5"/>
+                Margin="5"
+                Command="{x:Static local:MainWindow.AllerProchain}"/>
+            
 
             <Button Name="BoutonPrecedent" 
                 Style="{StaticResource boutonBleu}"
-                Command="{x:Static local:MainWindow.AllerPrecedent}"
                 Content="Précédent"
                 Grid.Row="1"
                 Grid.Column="0"
                 Height="Auto"
-                Margin="5"/>
+                Margin="5"
+                Command="{x:Static local:MainWindow.AllerPrecedent}"/>
         </Grid>
     </DockPanel>
 </Window>

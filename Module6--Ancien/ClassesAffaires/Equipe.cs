@@ -1,42 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Xml;
-using System.Xml.Linq;
 using Utilitaires;
 
 namespace Equipes
 {
+    /// <summary>
+    /// Classe représentant une équipe.
+    /// </summary>
     public class Equipe : IConversionXML
     {
+        /// <summary>
+        /// Les joueurs de l'équipe.
+        /// </summary>
         public ObservableCollection<string> Joueurs
         {
             set;
             get;
         }
 
+        /// <summary>
+        /// Le nom de l'équipe.
+        /// </summary>
         public string Nom
         {
             set;
             get;
         }
 
+        /// <summary>
+        /// Constructeur de l'équipe. Il faut un  nom.
+        /// </summary>
+        /// <param name="nom">Le nom de l'équipe</param>
         public Equipe(string nom)
         {
             Nom = nom;
             Joueurs = new ObservableCollection<string>();
         }
 
-
+        /// <summary>
+        /// Constructeur de l'équipe à partir d'un élément XML.
+        /// </summary>
+        /// <param name="element">L'élément XML qui représente l'équipe</param>
         public Equipe(XmlElement element)
         {
             Nom = element.GetAttribute("nom");
             Joueurs = new ObservableCollection<string>();
-            FromXML(element);
+            DeXML(element);
         }
 
         public override string ToString()
@@ -44,20 +53,24 @@ namespace Equipes
             return Nom;
         }
 
-        private void LireJoueurs(XmlElement element)
-        {
-        }
-
+        /// <summary>
+        /// Ajoute un joueur à l'équipe.
+        /// </summary>
+        /// <param name="nom">Le nom du joueur</param>
         public void AjouterJoueur(string nom)
         {
             Joueurs.Add(nom);
         }
 
+        /// <summary>
+        /// Retire un joueur de l'équipe.
+        /// </summary>
+        /// <param name="nom">Le nom du joueur</param>
         public void RetirerJoueur(string nom)
         {
             Joueurs.Remove(nom);
         }
-        public XmlElement ToXML(XmlDocument doc)
+        public XmlElement VersXML(XmlDocument doc)
         {
             XmlElement elementEquipe = doc.CreateElement("Equipe");
             elementEquipe.SetAttribute("nom", Nom);
@@ -71,7 +84,7 @@ namespace Equipes
 
         }
 
-        public void FromXML(XmlElement elem)
+        public void DeXML(XmlElement elem)
         {
             XmlNodeList lesJoueurs = elem.GetElementsByTagName("Joueur");
             foreach (XmlElement elementJoueur in lesJoueurs)
@@ -79,6 +92,5 @@ namespace Equipes
                 Joueurs.Add(elementJoueur.InnerText);
             }
         }
-
     }
 }
