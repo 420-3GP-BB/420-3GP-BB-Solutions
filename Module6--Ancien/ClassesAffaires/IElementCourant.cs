@@ -3,7 +3,7 @@
     public interface IElementCourant<T>
     {
         // Retourne l'élément courant ou null s'il n'y en a pas
-        public T? Courant { get; }
+        public T? ContactCourant { get; }
         // Retourne vrai si un élément précédent existe
         public bool PrecedentExiste { get; }
         // Retourne vrai si un élément suivant existe

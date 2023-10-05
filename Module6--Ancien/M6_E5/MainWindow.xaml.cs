@@ -43,7 +43,7 @@ namespace M6_E4
             _lesContacts = new CollectionContacts(); // La collection doit être créée avant
                                                      // l'initialisation des composants
             InitializeComponent();
-            DataContext = _lesContacts.Courant;
+            DataContext = _lesContacts.ContactCourant;
         }
 
         // À propos...
@@ -98,7 +98,7 @@ namespace M6_E4
                 _lesContacts.Ajouter(new Contact(c));
             }
             _lesContacts.AllerAuPremier();
-            DataContext = _lesContacts.Courant;
+            DataContext = _lesContacts.ContactCourant;
 
         }
 
@@ -148,7 +148,7 @@ namespace M6_E4
         private void AllerProchain_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             _lesContacts.AllerAuProchain();
-            DataContext = _lesContacts.Courant;
+            DataContext = _lesContacts.ContactCourant;
         }
 
         private void AllerProchain_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -160,7 +160,7 @@ namespace M6_E4
         private void AllerPrecedent_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             _lesContacts.AllerAuPrecedent();
-            DataContext = _lesContacts.Courant;
+            DataContext = _lesContacts.ContactCourant;
         }
 
         private void AllerPrecedent_CanExecute(object sender, CanExecuteRoutedEventArgs e)

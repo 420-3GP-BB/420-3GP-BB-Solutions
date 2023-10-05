@@ -8,7 +8,7 @@ namespace Contacts
         private List<Contact> _lesContacts;
         private int _indiceCourant;
 
-        public Contact? Courant
+        public Contact? ContactCourant
         {
             get => _indiceCourant >= 0 && _indiceCourant < _lesContacts.Count ? _lesContacts[_indiceCourant] : null;
         }
@@ -37,13 +37,6 @@ namespace Contacts
         public void Ajouter(Contact c)
         {
             _lesContacts.Add(c);
-            _indiceCourant = _lesContacts.Count - 1;
-        }
-
-        public void Clear()
-        {
-            _lesContacts.Clear();
-            _indiceCourant = -1;
         }
 
         public void AllerAuPremier()
@@ -75,7 +68,7 @@ namespace Contacts
         public void RetirerCourant()
         {
             // Le courant doit exister
-            if (Courant != null)
+            if (ContactCourant != null)
             {
                 _lesContacts.RemoveAt(_indiceCourant);
 

@@ -2,12 +2,21 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="assets\NoImage.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ClassesAffaires\ClassesAffaire.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="assets\NoImage.png" />
   </ItemGroup>
 
 </Project>
