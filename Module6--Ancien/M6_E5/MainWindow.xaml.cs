@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using Contacts;
@@ -8,7 +7,7 @@ using Microsoft.Win32;
 using System.IO;
 using System.Windows.Controls;
 
-namespace M6_E5
+namespace M6_E4
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -23,51 +22,34 @@ namespace M6_E5
         public static RoutedCommand EnregistrerFichierCmd = new RoutedCommand();
         public static RoutedCommand EnregistrerSousFichierCmd = new RoutedCommand();
 
-        // Les commandes pour la gestion de contacts
-        public static RoutedCommand AjouterContactCmd = new RoutedCommand();
-        public static RoutedCommand RetirerContactCmd = new RoutedCommand();
-        public static RoutedCommand NouveauContactCmd = new RoutedCommand();
-        public static RoutedCommand AnnulerNouveau = new RoutedCommand();
-
-
         // Commandes pour les boutons
         public static RoutedCommand AllerProchain = new RoutedCommand();
         public static RoutedCommand AllerPrecedent = new RoutedCommand();
 
         // Objets pour la gestion des contacts
 
-        private CollectionContacts lesContacts;
-        private string dossierBase;
-        private string pathFichier;
+        private CollectionContacts _lesContacts;
+        private string _pathFichier;
+        private string _dossierBase;
         private char DIR_SEPARATOR = Path.DirectorySeparatorChar;
-        private List<TextBox> champsTexte;
-        private Contact? contactVide;
+        //private string pathFichier;
 
         public MainWindow()
         {
-            // Il faut créer les objets avant quand ils sont utilisés dans les méthodes
-            // de vérification des commandes
-            champsTexte = new List<TextBox>();
-
-            dossierBase = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}{DIR_SEPARATOR}" +
+            _pathFichier = "";
+            _dossierBase = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}{DIR_SEPARATOR}" +
                           $"Fichiers-3GP";
-            pathFichier = dossierBase + DIR_SEPARATOR + "contacts.xml";
-            ChargerContacts(pathFichier);
-
+            //pathFichier = dossierBase + DIR_SEPARATOR + "contacts.xml";
+            _lesContacts = new CollectionContacts(); // La collection doit être créée avant
+                                                     // l'initialisation des composants
             InitializeComponent();
-
-
-            // Ajout des champs texte pour pouvoir les activer et les désactiver
-            champsTexte.Add(Nom);
-            champsTexte.Add(Prenom);
-            champsTexte.Add(NoCivique);
-            champsTexte.Add(Rue);
+            DataContext = _lesContacts.Courant;
         }
 
         // À propos...
         private void APropos_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBox.Show("Carnet adresses\n Version 0.9");
+            MessageBox.Show("Carnet adresses\n Version 1.0");
         }
 
         private void APropos_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -90,44 +72,57 @@ namespace M6_E5
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "xml files (*.xml)|*.xml";
-            openFileDialog.InitialDirectory = dossierBase;
+            openFileDialog.InitialDirectory = _dossierBase;
             bool? resultat = openFileDialog.ShowDialog();
 
             if (resultat.HasValue && resultat.Value)
             {
-                pathFichier = openFileDialog.FileName;
-                ChargerContacts(pathFichier);
+                _pathFichier = openFileDialog.FileName;
+                ChargerContacts(_pathFichier);
             }
         }
 
         private void ChargerContacts(string nomFichier)
         {
-            lesContacts = new CollectionContacts(pathFichier);
-            if (lesContacts.Courant != null)
+            if (!File.Exists(nomFichier))
             {
-                DataContext = lesContacts.Courant;
+                return;
             }
-            else
+
+            _lesContacts = new CollectionContacts();
+            XmlDocument doc = new XmlDocument();
+            doc.Load(nomFichier);
+            XmlNodeList contacts = doc.DocumentElement.GetElementsByTagName("contact");
+            foreach (XmlElement c in contacts)
             {
-                contactVide = new Contact();
-                DataContext = contactVide;
+                _lesContacts.Ajouter(new Contact(c));
             }
+            _lesContacts.AllerAuPremier();
+            DataContext = _lesContacts.Courant;
+
         }
 
         // Enregistrer fichier
         private void EnregisterFichier_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            SauvegarderContacts(pathFichier);
+            SauvegarderContacts(_pathFichier);
         }
 
         private void EnregisterFichier_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = lesContacts.Count > 0;
+            e.CanExecute = _lesContacts.Count > 0;
         }
 
         private void SauvegarderContacts(string nomFichier)
         {
-            lesContacts.SauvegarderContacts(nomFichier);
+            XmlDocument doc = new XmlDocument();
+            XmlElement racine = doc.CreateElement("contact");
+            doc.AppendChild(racine);
+            foreach (Contact c in _lesContacts)
+            {
+                racine.AppendChild(c.VersXML(doc));
+            }
+            doc.Save(nomFichier);
         }
 
         // Enregistrer sous...
@@ -135,128 +130,47 @@ namespace M6_E5
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "xml files (*.xml)|*.xml";
-            saveFileDialog.InitialDirectory = dossierBase;
+            saveFileDialog.InitialDirectory = _dossierBase;
             bool? resultat = saveFileDialog.ShowDialog();
             if (resultat.HasValue && resultat.Value)
             {
-                pathFichier = saveFileDialog.FileName;
-                SauvegarderContacts(pathFichier);
+                _pathFichier = saveFileDialog.FileName;
+                SauvegarderContacts(_pathFichier);
             }
-
         }
 
         private void EnregisterSous_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = lesContacts.Count > 0;
-        }
-
-        // Bouton de création de contact
-        private void AjouterContact_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            lesContacts.Add(contactVide);
-            contactVide = new Contact();
-            DataContext = contactVide;
-        }
-
-        private void AjouterContact_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            bool actif = DataContext == contactVide &&
-                         VerifierChampsVide(false);
-            e.CanExecute = actif;
-
-        }
-
-        private bool VerifierChampsVide(bool vide)
-        {
-            bool reponse = true;
-            foreach (TextBox textBox in champsTexte)
-            {
-                if (vide)
-                {
-                    reponse = reponse && textBox.Text.Equals("");
-                }
-                else
-                {
-                    reponse = reponse && !textBox.Text.Equals("");
-                }
-            }
-            return reponse;
-        }
-
-        private void RetirerContact_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            lesContacts.RetirerCourant();
-            if (lesContacts.Courant != null)
-            {
-                DataContext = lesContacts.Courant;
-            }
-            else
-            {
-                contactVide = new Contact();
-                DataContext = contactVide;
-            }
-        }
-
-        private void RetirerContact_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = lesContacts.Count > 0 && DataContext != contactVide;
-        }
-
-        private void NouveauContact_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            contactVide = new Contact();
-            DataContext = contactVide;
-        }
-
-        private void NouveauContact_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void AnnulerContact_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (lesContacts.Count > 0)
-            {
-                DataContext = lesContacts.Courant;
-            }
-            else
-            {
-                contactVide = new Contact();
-                DataContext = contactVide;
-            }
-        }
-
-        private void AnnulerContact_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = DataContext == contactVide;
+            e.CanExecute = _lesContacts.Count > 0;
         }
 
         // Aller au prochain contact
         private void AllerProchain_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            lesContacts.AllerAuProchain();
-            DataContext = lesContacts.Courant;
+            _lesContacts.AllerAuProchain();
+            DataContext = _lesContacts.Courant;
         }
 
         private void AllerProchain_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            bool actionPossible = DataContext != contactVide &&
-                                  lesContacts.ProchainExiste;
-            e.CanExecute = actionPossible;
+            e.CanExecute = _lesContacts.ProchainExiste;
         }
 
         // Aller au contact précédent
         private void AllerPrecedent_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            lesContacts.AllerAuPrecedent();
-            DataContext = lesContacts.Courant;
+            _lesContacts.AllerAuPrecedent();
+            DataContext = _lesContacts.Courant;
         }
 
         private void AllerPrecedent_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            bool actionPossible = DataContext != contactVide &&
-                                  lesContacts.PrecedentExiste;
-            e.CanExecute = actionPossible;
+            e.CanExecute = _lesContacts.PrecedentExiste;
+        }
+
+        private void TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            ((TextBox)sender).GetBindingExpression(TextBox.TextProperty).UpdateSource();
         }
     }
 }
