@@ -1,8 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Contacts;
 using System.IO;
@@ -141,87 +139,6 @@ namespace M6_E4
         {
             e.CanExecute = _lesContacts.Count > 0;
         }
-
-        // Bouton de création de contact
-        //private void AjouterContact_Executed(object sender, ExecutedRoutedEventArgs e)
-        //{
-        //    _lesContacts.Ajouter(contactVide);
-        //    contactVide = new Contact();
-        //    DataContext = _lesContacts.Courant;
-        //}
-
-        //private void AjouterContact_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        //{
-        //    bool actif = DataContext == contactVide &&
-        //                 VerifierChampsVide(false);
-        //    e.CanExecute = actif;
-
-        //}
-
-        //private bool VerifierChampsVide(bool vide)
-        //{
-        //    bool reponse = true;
-        //    foreach (TextBox textBox in champsTexte)
-        //    {
-        //        if (vide)
-        //        {
-        //            reponse = reponse && textBox.Text.Equals("");
-        //        }
-        //        else
-        //        {
-        //            reponse = reponse && !textBox.Text.Equals("");
-        //        }
-        //    }
-        //    return reponse;
-        //}
-
-        //private void RetirerContact_Executed(object sender, ExecutedRoutedEventArgs e)
-        //{
-        //    _lesContacts.RetirerCourant();
-        //    if (_lesContacts.Courant != null)
-        //    {
-        //        DataContext = _lesContacts.Courant;
-        //    }
-        //    else
-        //    {
-        //        contactVide = new Contact();
-        //        DataContext = contactVide;
-        //    }
-        //}
-
-        //private void RetirerContact_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        //{
-        //    e.CanExecute = _lesContacts.Count > 0 && DataContext != contactVide;
-        //}
-
-        //private void NouveauContact_Executed(object sender, ExecutedRoutedEventArgs e)
-        //{
-        //    contactVide = new Contact();
-        //    DataContext = contactVide;
-        //}
-
-        //private void NouveauContact_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        //{
-        //    e.CanExecute = true;
-        //}
-
-        //private void AnnulerContact_Executed(object sender, ExecutedRoutedEventArgs e)
-        //{
-        //    if (_lesContacts.Count > 0)
-        //    {
-        //        DataContext = _lesContacts.Courant;
-        //    }
-        //    else
-        //    {
-        //        contactVide = new Contact();
-        //        DataContext = contactVide;
-        //    }
-        //}
-
-        //private void AnnulerContact_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        //{
-        //    e.CanExecute = DataContext == contactVide;
-        //}
 
         // Aller au prochain contact
         private void AllerProchain_Executed(object sender, ExecutedRoutedEventArgs e)

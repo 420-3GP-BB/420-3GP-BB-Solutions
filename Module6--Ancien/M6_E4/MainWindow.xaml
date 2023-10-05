@@ -101,7 +101,6 @@
                     <TextBlock Text="Nom:"
                                Style="{StaticResource blocTextes}"/>
                     <TextBox Name="Nom"
-                             Text="{Binding Nom, Mode=TwoWay}"
                              Style="{StaticResource champSaisie}"/>
                 </WrapPanel>
 
@@ -109,15 +108,13 @@
                     <TextBlock Text="Prénom:"
                            Style="{StaticResource blocTextes}"/>
                     <TextBox Name="Prenom"
-                             Text="{Binding Prenom, Mode=TwoWay}"
-                         Style="{StaticResource champSaisie}"/>
+                           Style="{StaticResource champSaisie}"/>
                 </WrapPanel>
 
                 <WrapPanel Margin="5">
                     <TextBlock Text="No. Civique:"
                                Style="{StaticResource blocTextes}"/>
                     <TextBox Name="NoCivique"
-                             Text="{Binding NumeroCivique, Mode=TwoWay}"
                              Style="{StaticResource champSaisie}"/>
                 </WrapPanel>
 
@@ -125,7 +122,6 @@
                     <TextBlock Text="Rue:"
                            Style="{StaticResource blocTextes}"/>
                     <TextBox Name="Rue"
-                             Text="{Binding Rue, Mode=TwoWay}"
                              Style="{StaticResource champSaisie}"/>
                 </WrapPanel>
 
@@ -139,18 +135,6 @@
                     <Button Name="BoutonRetirer"
                             Style="{StaticResource boutonBleu}"
                             Content="Retirer"
-                            HorizontalAlignment="Center"
-                            Margin="0, 10, 0, 0"/>
-
-                    <Button Name="BoutonNouveau"
-                            Style="{StaticResource boutonBleu}"
-                            Content="Nouveau"
-                            HorizontalAlignment="Center"
-                            Margin="0, 10, 0, 0"/>
-
-                    <Button Name="BoutonAnnuler"
-                            Style="{StaticResource boutonBleu}"
-                            Content="Annuler"
                             HorizontalAlignment="Center"
                             Margin="0, 10, 0, 0"/>
                 </StackPanel>
