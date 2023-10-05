@@ -1,1 +1,0 @@
-La solution des exercices de l'exercice de contact a été revue dans le module 6. Il faudrait réintégrer cet exercice.
