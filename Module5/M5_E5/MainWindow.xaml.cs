@@ -31,10 +31,7 @@ namespace M5_E5
             if (result.Value)
             {
                 _pathFichier = fileDialog.FileName;
-                StreamReader leFichier = File.OpenText(_pathFichier);
-                _nomFichier.Text = Path.GetFileName(_pathFichier);
-                _contenuFichier.Text = leFichier.ReadToEnd();
-                leFichier.Close();
+                _contenuFichier.Text = File.ReadAllText(_pathFichier);
             }
         }
 
@@ -69,10 +66,7 @@ namespace M5_E5
         // Sauvegarde le fichier
         private void SauvegarderFichier()
         {
-            StreamWriter leFichier = File.CreateText(_pathFichier);
-            _nomFichier.Text = Path.GetFileName(_pathFichier);
-            leFichier.Write(_contenuFichier.Text);
-            leFichier.Close();
+            File.WriteAllText(_contenuFichier.Text, _pathFichier);
         }
     }
 }
