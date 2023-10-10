@@ -32,6 +32,7 @@ namespace M5_E5
             {
                 _pathFichier = fileDialog.FileName;
                 _contenuFichier.Text = File.ReadAllText(_pathFichier);
+                _nomFichier.Text = Path.GetFileName(_pathFichier);
             }
         }
 
@@ -66,7 +67,8 @@ namespace M5_E5
         // Sauvegarde le fichier
         private void SauvegarderFichier()
         {
-            File.WriteAllText(_contenuFichier.Text, _pathFichier);
+            File.WriteAllText(_pathFichier, _contenuFichier.Text);
+            _nomFichier.Text = Path.GetFileName(_pathFichier);
         }
     }
 }
