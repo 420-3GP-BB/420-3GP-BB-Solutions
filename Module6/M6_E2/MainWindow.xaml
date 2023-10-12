@@ -82,17 +82,6 @@
                         HorizontalAlignment="Center"
                         Margin="0, 10, 0, 0"/>
 
-                <Button Name="BoutonNouveau"
-                        Style="{StaticResource boutonBleu}"
-                        Content="Nouveau"
-                        HorizontalAlignment="Center"
-                        Margin="0, 10, 0, 0"/>
-
-                <Button Name="BoutonAnnuler"
-                        Style="{StaticResource boutonBleu}"
-                        Content="Annuler"
-                        HorizontalAlignment="Center"
-                        Margin="0, 10, 0, 0"/>
             </StackPanel>
         </StackPanel>
 
