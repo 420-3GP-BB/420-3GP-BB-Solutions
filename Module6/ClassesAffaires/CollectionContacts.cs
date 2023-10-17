@@ -37,6 +37,7 @@ namespace Contacts
         public void Ajouter(Contact c)
         {
             _lesContacts.Add(c);
+            _indiceCourant = _lesContacts.Count - 1;
         }
 
         public void AllerAuPremier()
