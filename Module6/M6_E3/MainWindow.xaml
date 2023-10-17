@@ -11,6 +11,14 @@
         ResizeMode="CanMinimize"
         Background="AliceBlue">
 
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:MainWindow.AProposCmd}"
+                        CanExecute="APropos_CanExecute"
+                        Executed="APropos_Executed"/>
+
+    </Window.CommandBindings>
+    
+    
     <Window.Resources>
         <Style x:Key="boutonBleu">
             <Setter Property="Button.Background" Value="Blue"/>
@@ -49,6 +57,7 @@
             <MenuItem Header="_Aide"
                       Style="{StaticResource couleurMenu}">
                 <MenuItem Header="À propos..."
+                          Command="{x:Static local:MainWindow.AProposCmd}"
                           Style="{StaticResource couleurMenu}"/>
             </MenuItem>
         </Menu>

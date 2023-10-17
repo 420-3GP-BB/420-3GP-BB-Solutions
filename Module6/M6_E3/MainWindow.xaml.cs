@@ -20,9 +20,23 @@ namespace M6_E3
     /// </summary>
     public partial class MainWindow : Window
     {
+
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        public static RoutedCommand AProposCmd = new RoutedCommand();
+
+        private void APropos_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = false;
+        }
+
+        private void APropos_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("ALLO !!!");
         }
     }
 }
