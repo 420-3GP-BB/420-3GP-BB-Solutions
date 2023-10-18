@@ -10,7 +10,7 @@ namespace Contacts
 
         public Contact? ContactCourant
         {
-            get => _indiceCourant >= 0 && _indiceCourant < _lesContacts.Count ? _lesContacts[_indiceCourant] : null;
+            get => _indiceCourant >= 0 ? _lesContacts[_indiceCourant] : null;
         }
 
         public bool PrecedentExiste
