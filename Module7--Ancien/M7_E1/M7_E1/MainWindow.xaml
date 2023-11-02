@@ -44,7 +44,7 @@
             <TextBlock 
                    FontSize="14"
                    TextAlignment="Center"
-                   Text="{Binding Nom, Mode=TwoWay}"/>
+                   Text="{Binding Nom, Mode=OneWay}"/>
         </Border>
 
     </Grid>
