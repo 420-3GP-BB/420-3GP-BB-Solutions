@@ -5,93 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:M7_E1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-
-    <Window.CommandBindings>
-        <CommandBinding Command="{x:Static local:MainWindow.AjouterEquipeCmd}"
-                        CanExecute="AjouterEquipe_CanExecute"
-                        Executed="AjouterEquipe_Executed"/>
-        <CommandBinding Command="{x:Static local:MainWindow.AjouterJoueurCmd}"
-                        CanExecute="AjouterJoueur_CanExecute"
-                        Executed="AjouterJoueur_Executed"/>
-        <CommandBinding Command="{x:Static local:MainWindow.RetirerJoueurCmd}"
-                        CanExecute="RetirerJoueur_CanExecute"
-                        Executed="RetirerJoueur_Executed"/>
-
-    </Window.CommandBindings>
-
-
+        Title="Exemple MVVM" Height="170" Width="350">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"/>
-            <ColumnDefinition Width="400"/>
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0"
-                    Grid.Column="0">
-            <WrapPanel Margin="5">
-                <TextBlock Text="Équipes: "
-                           Width="100"/>
-                <ComboBox x:Name="ComboBoxEquipes"
-                          SelectionChanged="ComboBoxEquipes_SelectionChanged"
-                          ItemsSource="{Binding LesEquipes}"
-                          Width="150"/>
-            </WrapPanel>
+        <TextBlock Grid.Row="0"
+                   Text="Entrez votre nom:"
+                   Width="300"
+                   FontSize="14"
+                   TextAlignment="Center"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
 
-            <WrapPanel Margin="5">
-                <TextBlock Text="Nom équipe: "
-                           Width="100"/>
+        <TextBox Grid.Row="1"
+                 x:Name="_saisieNom"
+                 Width="300"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"/>
 
-                <TextBox  x:Name="InputNouvelleEquipe"
-                          Width="150"/>
-            </WrapPanel>
+        <Button Content="Afficher nom"
+                Grid.Row="2"
+                Width="300"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Click="Button_Click"/>
 
-            <Button x:Name="AjouterEquipe"
-                    Content="Ajouter équipe"
-                    Command="{x:Static local:MainWindow.AjouterEquipeCmd}"
-                    Width="150"
-                    HorizontalAlignment="Left"
-                    Margin="105, 5, 0, 0"/>
+        <Border BorderBrush="Black"
+                BorderThickness="1"
+                Grid.Row="3"
+                Width="300"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <TextBlock 
+                   FontSize="14"
+                   TextAlignment="Center"
+                   Text="{Binding Nom, Mode=TwoWay}"/>
+        </Border>
 
-        </StackPanel>
-
-        <StackPanel Grid.Row="0"
-                    Grid.Column="1">
-            <WrapPanel>
-                <TextBlock Text="Joueurs: "
-                           Margin="5"/>
-                <ListBox x:Name="ListBoxJoueurs"
-                         ItemsSource="{Binding LesJoueurs}"
-                         Height="300" 
-                         Width="390"/>
-
-            </WrapPanel>
-
-            <WrapPanel Margin="5">
-                <TextBlock Text="Nom joueur: "
-                           Width="100"/>
-
-                <TextBox  x:Name="InputNouveauJoueur"
-                          Width="150"/>
-            </WrapPanel>
-
-            <WrapPanel>
-                <Button x:Name="AjouterJoueur"
-                        Content="Ajouter joueur"
-                        Command="{x:Static local:MainWindow.AjouterJoueurCmd}"
-                        Width="150"
-                        HorizontalAlignment="Left"/>
-
-                <Button x:Name="RetirerJoueur"
-                        Content="Retirer joueur"
-                        Width="150"
-                        Margin="30,0,0,0"
-                        Command="{x:Static local:MainWindow.RetirerJoueurCmd}"
-                        HorizontalAlignment="Right"/>
-
-            </WrapPanel>
-
-
-        </StackPanel>
     </Grid>
 </Window>
