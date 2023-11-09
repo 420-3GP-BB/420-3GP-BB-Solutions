@@ -1,0 +1,98 @@
+﻿<Window x:Class="View.FenetreCreationContact"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:View"
+        mc:Ignorable="d"
+        Title="Ajout d'un contact"
+        Height="300" 
+        Width="350"
+        ResizeMode="NoResize"
+        Background="AliceBlue">
+    <Window.Resources>
+        <Style x:Key="boutonBleu">
+            <Setter Property="Button.Background" Value="Blue"/>
+            <Setter Property="Button.Foreground" Value="White"/>
+        </Style>
+    </Window.Resources>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:FenetreCreationContact.NouveauContact}"
+                        Executed="NouveauContact_Executed"
+                        CanExecute="NouveauContact_CanExecute"/>
+    </Window.CommandBindings>
+    
+    <StackPanel Margin="5">
+        <TextBlock FontSize="10"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center">Entrez les informations du contact :
+        </TextBlock>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Nom :"
+                       Margin="5"
+                   VerticalAlignment="Center"
+                   Grid.Row="0"
+                   Grid.Column="0"/>
+            <TextBox x:Name="Nom"
+                     Text="{Binding Nom, Mode=TwoWay}"
+                     Margin="5"
+                 VerticalAlignment="Center"
+                 Grid.Row="0"
+                 Grid.Column="1"/>
+            <TextBlock Text="Prénom :"
+                       Margin="5"
+                   VerticalAlignment="Center"
+                   Grid.Row="1"
+                   Grid.Column="0"/>
+            <TextBox x:Name="Prenom"
+                     Text="{Binding Prenom, Mode=TwoWay}"
+                     Margin="5"
+                     VerticalAlignment="Center"
+                     Grid.Row="1"
+                     Grid.Column="1"/>
+            <TextBlock Text="Numéro civique :"
+                   Margin="5"
+                   VerticalAlignment="Center"
+                   Grid.Row="2"
+                   Grid.Column="0"/>
+            <TextBox x:Name="Numero"
+                     Text="{Binding NumeroCivique, Mode=TwoWay}"
+                     TextChanged="Numero_TextChanged"
+                     Margin="5"
+                     VerticalAlignment="Center"
+                     Grid.Row="2"
+                     Grid.Column="1"/>
+            <TextBlock Text="Rue :"
+                   Margin="5"
+                   VerticalAlignment="Center"
+                   Grid.Row="3"
+                   Grid.Column="0"/>
+            <TextBox x:Name="Rue"
+                     Text="{Binding Rue, Mode=TwoWay}"
+                     Margin="5"
+                     VerticalAlignment="Center"
+                     Grid.Row="3"
+                     Grid.Column="1"/>
+            <Button Content="Ajouter contact"
+                    Command="{x:Static local:FenetreCreationContact.NouveauContact}"
+                    Style="{StaticResource boutonBleu}"
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    Grid.Row="4"
+                    Grid.Column="1"/>
+        </Grid>
+    </StackPanel>
+</Window>

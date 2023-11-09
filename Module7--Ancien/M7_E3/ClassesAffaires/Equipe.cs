@@ -2,39 +2,49 @@
 using System.Xml;
 using Utilitaires;
 
-namespace Model
+namespace Equipes
 {
-    // Classe qui représente une équipe L'équipe
-    // contient simplement une liste de joueurs
+    /// <summary>
+    /// Classe représentant une équipe.
+    /// </summary>
     public class Equipe : IConversionXML
     {
-        // La liste des joueurs
-        public ObservableCollection<Joueur> LesJoueurs
+        /// <summary>
+        /// Les joueurs de l'équipe.
+        /// </summary>
+        public ObservableCollection<string> Joueurs
         {
-            private set;
+            set;
             get;
         }
 
-        // Le nom de l'équipe
+        /// <summary>
+        /// Le nom de l'équipe.
+        /// </summary>
         public string Nom
         {
-            private set;
+            set;
             get;
         }
 
-        // Constructeur
-        // L'équipe doit avoir un nom
+        /// <summary>
+        /// Constructeur de l'équipe. Il faut un  nom.
+        /// </summary>
+        /// <param name="nom">Le nom de l'équipe</param>
         public Equipe(string nom)
         {
             Nom = nom;
-            LesJoueurs = new ObservableCollection<Joueur>();
+            Joueurs = new ObservableCollection<string>();
         }
 
-        // Constructeur qui fonctionne avec un élément XML.
+        /// <summary>
+        /// Constructeur de l'équipe à partir d'un élément XML.
+        /// </summary>
+        /// <param name="element">L'élément XML qui représente l'équipe</param>
         public Equipe(XmlElement element)
         {
             Nom = element.GetAttribute("nom");
-            LesJoueurs = new ObservableCollection<Joueur>();
+            Joueurs = new ObservableCollection<string>();
             DeXML(element);
         }
 
@@ -43,36 +53,29 @@ namespace Model
             return Nom;
         }
 
-        // Ajoute un joueur à l'équipe
+        /// <summary>
+        /// Ajoute un joueur à l'équipe.
+        /// </summary>
+        /// <param name="nom">Le nom du joueur</param>
         public void AjouterJoueur(string nom)
         {
-            LesJoueurs.Add(new Joueur(nom));
+            Joueurs.Add(nom);
         }
 
-        // Retire un joueur de l'équipe
+        /// <summary>
+        /// Retire un joueur de l'équipe.
+        /// </summary>
+        /// <param name="nom">Le nom du joueur</param>
         public void RetirerJoueur(string nom)
         {
-            int indice = 0;
-            bool trouve = false;
-
-            while(indice < LesJoueurs.Count && ! trouve)
-            {
-                if (LesJoueurs[indice].Nom.Equals(nom))
-                {
-                    LesJoueurs.RemoveAt(indice);
-                    trouve = true;
-                }
-                indice++;
-            }
+            Joueurs.Remove(nom);
         }
-
         public XmlElement VersXML(XmlDocument doc)
         {
             XmlElement elementEquipe = doc.CreateElement("Equipe");
             elementEquipe.SetAttribute("nom", Nom);
-            foreach (Joueur joueur in LesJoueurs)
+            foreach (string nomJoueur in Joueurs)
             {
-                string nomJoueur = joueur.Nom;
                 XmlElement nouveauJoueur = doc.CreateElement("Joueur");
                 nouveauJoueur.InnerText = nomJoueur;
                 elementEquipe.AppendChild(nouveauJoueur);
@@ -86,7 +89,7 @@ namespace Model
             XmlNodeList lesJoueurs = elem.GetElementsByTagName("Joueur");
             foreach (XmlElement elementJoueur in lesJoueurs)
             {
-                LesJoueurs.Add(new Joueur(elementJoueur.InnerText));
+                Joueurs.Add(elementJoueur.InnerText);
             }
         }
     }

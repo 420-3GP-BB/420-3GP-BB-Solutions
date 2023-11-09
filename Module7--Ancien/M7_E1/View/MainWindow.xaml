@@ -1,0 +1,51 @@
+﻿<Window x:Class="View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:View"
+        mc:Ignorable="d"
+        Title="Exemple MVVM" Height="170" Width="350">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="Entrez votre nom:"
+                   Width="300"
+                   FontSize="14"
+                   TextAlignment="Center"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+
+        <TextBox Grid.Row="1"
+                 x:Name="_saisieNom"
+                 Width="300"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"/>
+
+        <Button Content="Afficher nom"
+                Grid.Row="2"
+                Width="300"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Click="Button_Click"/>
+
+        <Border BorderBrush="Black"
+                BorderThickness="1"
+                Grid.Row="3"
+                Width="300"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <TextBlock 
+                   FontSize="14"
+                   TextAlignment="Center"
+                   Text="{Binding Nom, Mode=OneWay}"/>
+        </Border>
+
+    </Grid>
+</Window>

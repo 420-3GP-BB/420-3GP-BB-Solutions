@@ -52,7 +52,7 @@ namespace Model
 
             foreach (Equipe uneEquipe in LesEquipes)
             {
-                XmlElement element = uneEquipe.ToXML(document);
+                XmlElement element = uneEquipe.VersXML(document);
                 elementEquipe.AppendChild(element);
             }
             document.Save(nomFichier);

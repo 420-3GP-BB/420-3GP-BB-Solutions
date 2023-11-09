@@ -1,0 +1,26 @@
+<contacts>
+	<contact nom="Simpson" prenom="Homer">
+		<adresse numero="742" rue="Evergreen Terrace"/>
+		<description>
+			Homer Jay Simpson est le principal personnage fictif de la série télévisée d'animation Les Simpson et le père de la famille du même nom.
+		</description>
+	</contact>
+	<contact nom="Simpson" prenom="Bart">
+		<adresse numero="742" rue="Evergreen Terrace"/>
+		<description>
+			Âgé de dix ans, Bart est le seul garçon d'Homer et Marge, et le frère aîné de Lisa et Maggie.
+		</description>		
+	</contact>
+	<contact nom="Flanders" prenom="Ned">
+		<adresse numero="740" rue="Evergreen Terrace"/>
+		<description>
+			Il est le voisin le plus proche de la famille Simpson et tient le rôle du souffre-douleur d'Homer Simpson.
+		</description>
+	</contact>
+	<contact nom="Burns" prenom="Charles Montgomery">
+		<adresse numero="1000" rue="Mammon Lane"/>
+		<description>
+			Il est milliardaire et est le propriétaire de la centrale nucléaire de Springfield.
+		</description>
+	</contact>
+</contacts>
