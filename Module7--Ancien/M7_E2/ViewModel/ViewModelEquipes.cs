@@ -1,52 +1,59 @@
-﻿using System.Collections.ObjectModel;
+﻿ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Model;
 
 namespace ViewModel
 {
+    // Le ViewModel pour les équipes
     public class ViewModelEquipes : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private ModelEquipes _model;
-        private Equipe? _equipeCourante;
-        private string? _nomFichier;
+        private ModelEquipes _model;  // Le modèle
+        private string? _nomFichier; // Le nom du fichier
 
+        // L'équipe courante
+        public Equipe? EquipeActive
+        {
+            set;
+            get;
+        }
+
+        // Les propriétés qui sont liées à la vue
         public ObservableCollection<Equipe>? LesEquipes
         {
+            // Si on ne veut pas exposer directement la liste du modèle, il y a d'autres possibilités.
+            // Par exemple, on pourrait utiliser une List dans le modèle et ici retourner
+            // une ObservableCollection construit à partir de la List.
+            // Par exemple:
+            //      return new ObservableCollection<Equipe>(_model.LesEquipes);
+            // Il faudrait alors ajouter un événement pour que la vue soit notifiée des changements
             get
             {
-                // Si on veut éviter la copie, on peut:
-                // 1) Mettre une ObservableCollection dans le model et rediriger vers cette liste (pas l'idéal au nivau design)
-                // 2) Conserver une copie dans le ViewModel et dans le Model (prend plus d'espace, plus de gestion)
-                // 3) Faire une liste qui implémente l'interface INotifyCollectionChanged (code plus complexe)
-                //
-                // L'important est de remarquer que peu importe la décision prise, c'est transparent pour
-                // la vue.
-                return new ObservableCollection<Equipe>(_model.LesEquipes);
+                return _model.LesEquipes;
             }
         }
 
+        // Les joueurs de l'équipe courante
         public ObservableCollection<Joueur>? LesJoueurs
         {
             get
             {
-                if (_equipeCourante == null)
+                if (EquipeActive == null)
                 {
                     return null;
                 }
                 else
                 {
-                    return new ObservableCollection<Joueur>(_equipeCourante.LesJoueurs);
+                    return EquipeActive.LesJoueurs;
                 }
             }
         }
 
-
         public ViewModelEquipes()
         {
             _model = new ModelEquipes();
-            _equipeCourante = null;
+            EquipeActive = null;
             _nomFichier = null;
         }
 
@@ -54,13 +61,17 @@ namespace ViewModel
         {
             _nomFichier = nomFichier;
             _model.ChargerFichierXml(_nomFichier);
-            OnPropertyChange("LesEquipes");
+            if (LesEquipes != null && LesEquipes.Count > 0)
+            {
+                EquipeActive = LesEquipes[0];
+            }
+            OnPropertyChange("");
         }
 
         public void ChangerEquipe(Object obj)
         {
-            _equipeCourante = obj as Equipe;
-            OnPropertyChange("LesJoueurs");
+            EquipeActive = obj as Equipe;
+            OnPropertyChange("");
         }
 
         public bool EquipeExiste(string nomEquipe)
@@ -72,7 +83,8 @@ namespace ViewModel
         {
             Equipe nouvelleEquipe = _model.CreerEquipe(nomEquipe);
             SauvegarderDonnees();
-            OnPropertyChange("LesEquipes");
+            EquipeActive = nouvelleEquipe;
+            OnPropertyChange("LesJoueurs");
             return nouvelleEquipe;
         }
 
@@ -95,25 +107,22 @@ namespace ViewModel
         // et un nom de joueur.
         public void AjouterJoueurEquipe(string nomJoueur)
         {
-            if (_equipeCourante != null)
+            if (EquipeActive != null)
             {
-                _equipeCourante.AjouterJoueur(nomJoueur);
+                EquipeActive.AjouterJoueur(nomJoueur);
                 SauvegarderDonnees();
-                OnPropertyChange("LesJoueurs");
             }
         }
 
         public void RetirerJoueurEquipe(object joueur)
         {
-            if (_equipeCourante != null)
+            if (EquipeActive != null)
             {
                 Joueur leJoueur = joueur as Joueur;
-                _equipeCourante.RetirerJoueur(leJoueur.Nom);
+                EquipeActive.RetirerJoueur(leJoueur.Nom);
                 SauvegarderDonnees();
-                OnPropertyChange("LesJoueurs");
             }
         }
-
 
         private void OnPropertyChange(string? property = null)
         {

@@ -1,0 +1,18 @@
+<Ligue>
+  <Equipes>
+    <Equipe nom="Canadiens">
+      <Joueur>Josh Anderson</Joueur>
+      <Joueur>Cole Caufield</Joueur>
+      <Joueur>Kaiden Guhle</Joueur>
+      <Joueur>Jake Allen</Joueur>
+      <Joueur>Nick Suzuki</Joueur>
+    </Equipe>
+    <Equipe nom="Maple Leafs">
+      <Joueur>Erik Kallgren</Joueur>
+      <Joueur>Calle Jarnkrok</Joueur>
+      <Joueur>John Tavares</Joueur>
+      <Joueur>Justin Holl</Joueur>
+      <Joueur>Wayne Simmonds</Joueur>
+    </Equipe>
+  </Equipes>
+</Ligue>

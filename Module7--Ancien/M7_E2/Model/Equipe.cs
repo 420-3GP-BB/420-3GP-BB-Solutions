@@ -4,31 +4,37 @@ using Utilitaires;
 
 namespace Model
 {
+    // Classe qui représente une équipe L'équipe
+    // contient simplement une liste de joueurs
     public class Equipe : IXMLSerializable
     {
-        public List<Joueur> LesJoueurs
+        // La liste des joueurs
+        public ObservableCollection<Joueur> LesJoueurs
         {
             private set;
             get;
         }
 
+        // Le nom de l'équipe
         public string Nom
         {
             private set;
             get;
         }
 
+        // Constructeur
+        // L'équipe doit avoir un nom
         public Equipe(string nom)
         {
             Nom = nom;
-            LesJoueurs = new List<Joueur>();
+            LesJoueurs = new ObservableCollection<Joueur>();
         }
 
-
+        // Constructeur qui fonctionne avec un élément XML.
         public Equipe(XmlElement element)
         {
             Nom = element.GetAttribute("nom");
-            LesJoueurs = new List<Joueur>();
+            LesJoueurs = new ObservableCollection<Joueur>();
             FromXML(element);
         }
 
@@ -37,11 +43,13 @@ namespace Model
             return Nom;
         }
 
+        // Ajoute un joueur à l'équipe
         public void AjouterJoueur(string nom)
         {
             LesJoueurs.Add(new Joueur(nom));
         }
 
+        // Retire un joueur de l'équipe
         public void RetirerJoueur(string nom)
         {
             int indice = 0;

@@ -1,35 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+﻿using System.Collections.ObjectModel;
 using System.Xml;
 
 namespace Model
 {
-
-
+    // La classe qui représente le modèle de données.
+    // Elle contient les données et les méthodes pour les manipuler.
+    // Elle sait comment charger et sauvegarder les données.
 
     public class ModelEquipes
     {
-
-        public List<Equipe> LesEquipes
+        // La liste des équipes
+       public ObservableCollection<Equipe> LesEquipes
         {
             private set;
             get;
         }
 
-
+        // Constructeur
         public ModelEquipes()
         {
-            LesEquipes = new List<Equipe>();
+            LesEquipes = new ObservableCollection<Equipe>();
         }
 
+        // Charge les données
         public void ChargerFichierXml(string nomFichier)
         {
-            LesEquipes = new List<Equipe>();
-
+            LesEquipes = new ObservableCollection<Equipe>();
+            
             XmlDocument document = new XmlDocument();
             document.Load(nomFichier);
             XmlElement racine = document.DocumentElement;
@@ -43,6 +40,7 @@ namespace Model
             }
         }
 
+        // Sauvegarde les données
         public void SauvegarderFichierXml(string nomFichier)
         {
             XmlDocument document = new XmlDocument();
@@ -60,6 +58,19 @@ namespace Model
             document.Save(nomFichier);
         }
 
+        // Ajoute un joueur à une équipe
+        public void AjouterJoueur(Equipe equipe, string nomJoueur)
+        {
+            equipe.AjouterJoueur(nomJoueur);
+        }
+
+        // Retire un joueur d'une équipe
+        public void RetirerJoueur(Equipe equipe, string nomJoueur)
+        {
+            equipe.RetirerJoueur(nomJoueur);
+        }
+
+        // Vérifie si une équipe existe déjà
         public bool EquipeExiste(string nomEquipe)
         {
             bool equipePresente = false;
@@ -74,6 +85,7 @@ namespace Model
             return equipePresente;
         }
 
+        // Crée une équipe
         public Equipe CreerEquipe(string nomEquipe)
         {
             Equipe? nouvelleEquipe = null;

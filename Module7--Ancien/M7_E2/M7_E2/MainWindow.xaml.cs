@@ -16,7 +16,7 @@ using System.Xml;
 using System.IO;
 using ViewModel;
 
-namespace M7_E1
+namespace M7_E2
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
