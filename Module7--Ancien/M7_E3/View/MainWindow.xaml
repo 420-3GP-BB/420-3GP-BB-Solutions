@@ -9,7 +9,8 @@
         Height="350" 
         Width="600"
         ResizeMode="CanMinimize"
-        Background="AliceBlue">
+        Background="AliceBlue"
+        WindowStartupLocation="CenterScreen">
 
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:MainWindow.AProprosCmd}"
@@ -165,12 +166,13 @@
                     BorderThickness="2"
                     BorderBrush="Blue">
 
-                    <Image Source="assets/NoImage.png" 
-                       VerticalAlignment="Center"/>
+                    <Image Source="{Binding FichierImage, Mode=TwoWay}" 
+                           VerticalAlignment="Center"/>
                 </Border>
 
                 <Button Name="BoutonChangerPhoto"
                     Style="{StaticResource boutonBleu}"
+                    Click="BoutonChangerPhoto_Click"    
                     Content="Changer photo"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"

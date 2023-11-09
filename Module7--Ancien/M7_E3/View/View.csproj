@@ -12,11 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ClassesAffaires\ClassesAffaire.csproj" />
+    <ProjectReference Include="..\ClassesAffaires\Model.csproj" />
+    <ProjectReference Include="..\ViewModel\ViewModel.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="assets\NoImage.png" />
+    <EmbeddedResource Include="assets\NoImage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

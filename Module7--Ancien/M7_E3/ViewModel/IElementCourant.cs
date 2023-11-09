@@ -1,4 +1,4 @@
-﻿namespace ClassesAffaire
+﻿namespace ViewModel
 {
     public interface IElementCourant<T>
     {

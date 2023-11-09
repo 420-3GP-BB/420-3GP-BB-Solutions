@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using Contacts;
+using Model;
 using System.Xml;
 using Microsoft.Win32;
 using System.IO;
 using System.Windows.Controls;
+using ViewModel;
 
 namespace View
 {
@@ -32,23 +33,36 @@ namespace View
         public static RoutedCommand RetirerContact = new RoutedCommand();
 
         // Objets pour la gestion des contacts
+        private ViewModelContacts _viewModel;
 
-        private CollectionContacts _lesContacts;
         private string _pathFichier;
+        private string _dossierImages;
         private string _dossierBase;
         private char DIR_SEPARATOR = Path.DirectorySeparatorChar;
         //private string pathFichier;
 
         public MainWindow()
         {
-            _pathFichier = "";
             _dossierBase = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}{DIR_SEPARATOR}" +
                           $"Fichiers-3GP";
-            //pathFichier = dossierBase + DIR_SEPARATOR + "contacts.xml";
-            _lesContacts = new CollectionContacts(); // La collection doit être créée avant
-                                                     // l'initialisation des composants
+            _dossierImages = $"{_dossierBase}{DIR_SEPARATOR}Images";
+
+            if (!Directory.Exists(_dossierImages))
+            {
+                Directory.CreateDirectory(_dossierImages);
+            }
+
+            if (!File.Exists($"{_dossierImages}{DIR_SEPARATOR}NoImage.png"))
+            {
+                File.Copy($"assets{DIR_SEPARATOR}NoImage.png", $"{_dossierImages}{DIR_SEPARATOR}NoImage.png");
+            }
+
+            _viewModel = new ViewModelContacts(_dossierImages);
+
+
+
             InitializeComponent();
-            DataContext = _lesContacts.ContactCourant;
+            DataContext = _viewModel;
         }
 
         // À propos...
@@ -83,52 +97,21 @@ namespace View
             if (resultat.HasValue && resultat.Value)
             {
                 _pathFichier = openFileDialog.FileName;
-                ChargerContacts(_pathFichier);
+                _viewModel.ChargerContacts(_pathFichier);
             }
-        }
-
-        private void ChargerContacts(string nomFichier)
-        {
-            if (!File.Exists(nomFichier))
-            {
-                return;
-            }
-
-            _lesContacts = new CollectionContacts();
-            XmlDocument doc = new XmlDocument();
-            doc.Load(nomFichier);
-            XmlNodeList contacts = doc.DocumentElement.GetElementsByTagName("contact");
-            foreach (XmlElement c in contacts)
-            {
-                _lesContacts.Ajouter(new Contact(c));
-            }
-            _lesContacts.AllerAuPremier();
-            DataContext = _lesContacts.ContactCourant;
-
         }
 
         // Enregistrer fichier
         private void EnregisterFichier_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            SauvegarderContacts(_pathFichier);
+            _viewModel.SauvegarderContacts(_pathFichier);
         }
 
         private void EnregisterFichier_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = _lesContacts.Count > 0;
+            e.CanExecute = _viewModel.PeutEnregistrer;
         }
 
-        private void SauvegarderContacts(string nomFichier)
-        {
-            XmlDocument doc = new XmlDocument();
-            XmlElement racine = doc.CreateElement("contact");
-            doc.AppendChild(racine);
-            foreach (Contact c in _lesContacts)
-            {
-                racine.AppendChild(c.VersXML(doc));
-            }
-            doc.Save(nomFichier);
-        }
 
         // Enregistrer sous...
         private void EnregisterSous_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -140,37 +123,35 @@ namespace View
             if (resultat.HasValue && resultat.Value)
             {
                 _pathFichier = saveFileDialog.FileName;
-                SauvegarderContacts(_pathFichier);
+                _viewModel.SauvegarderContacts(_pathFichier);
             }
         }
 
         private void EnregisterSous_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = _lesContacts.Count > 0;
+            e.CanExecute = _viewModel.PeutEnregistrer;
         }
 
         // Aller au prochain contact
         private void AllerProchain_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            _lesContacts.AllerAuProchain();
-            DataContext = _lesContacts.ContactCourant;
+            _viewModel.AllerAuProchain();
         }
 
         private void AllerProchain_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = _lesContacts.ProchainExiste;
+            e.CanExecute = _viewModel.ProchainExiste;
         }
 
         // Aller au contact précédent
         private void AllerPrecedent_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            _lesContacts.AllerAuPrecedent();
-            DataContext = _lesContacts.ContactCourant;
+            _viewModel.AllerAuPrecedent();
         }
 
         private void AllerPrecedent_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = _lesContacts.PrecedentExiste;
+            e.CanExecute = _viewModel.PrecedentExiste;
         }
 
         // Ajouter un contact
@@ -183,10 +164,7 @@ namespace View
             bool? resultat = fenetre.ShowDialog();
             if (resultat.HasValue && resultat.Value)
             {
-                _lesContacts.Ajouter(leContact);
-                _lesContacts.AllerAuDernier();
-                DataContext = _lesContacts.ContactCourant;
-            }
+                _viewModel.AjouterContact(leContact);            }
         }
 
         private void AjouterContact_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -197,18 +175,33 @@ namespace View
         // Retirer un contact
         private void RetirerContact_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (_lesContacts.ContactCourant == null)
-            { 
-                return;
-            }
-
-            _lesContacts.RetirerCourant();
-            DataContext = _lesContacts.ContactCourant;
+            _viewModel.RetirerCourant();
         }
 
         private void RetirerContact_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = _lesContacts.ContactCourant != null;
+            e.CanExecute = _viewModel.CourantExiste;
+        }
+
+        private void BoutonChangerPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            string dossierImages = $"{_dossierBase}{DIR_SEPARATOR}Images";
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
+            openFileDialog.InitialDirectory = dossierImages;
+            bool? resultat = openFileDialog.ShowDialog();
+            if (resultat.HasValue && resultat.Value)
+            {
+                string nomFichier = openFileDialog.FileName;
+                string nomFichierSansChemin = Path.GetFileName(nomFichier);
+                string nomFichierDestination = $"{dossierImages}{DIR_SEPARATOR}{nomFichierSansChemin}";
+                if (! File.Exists(nomFichierDestination))
+                {
+                    File.Copy(nomFichier, nomFichierDestination, true);
+                }
+                _viewModel.FichierImage = nomFichierSansChemin;
+            }
+
         }
 
         // Pour mettre à jour les données du textBox quand on change les valeurs
@@ -216,5 +209,7 @@ namespace View
         {
             ((TextBox)sender).GetBindingExpression(TextBox.TextProperty).UpdateSource();
         }
+
+
     }
 }

@@ -1,10 +1,7 @@
-﻿using Utilitaires;
-using System.Text;
+﻿using System.Text;
 using System.Xml;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
-namespace Contacts
+namespace Model
 {
     public class Contact :IConversionXML
     {
@@ -33,6 +30,12 @@ namespace Contacts
         }
 
         public string Description
+        {
+            set;
+            get;
+        }
+
+        public string? FichierImage
         {
             set;
             get;
@@ -82,6 +85,7 @@ namespace Contacts
         {
             Nom = elem.GetAttribute("nom");
             Prenom = elem.GetAttribute("prenom");
+            FichierImage = elem.GetAttribute("image");
 
             XmlElement adresse = elem["adresse"];
             NumeroCivique = Int32.Parse(adresse.GetAttribute("numero"));
@@ -101,6 +105,7 @@ namespace Contacts
             XmlElement elementContact = doc.CreateElement("contact");
             elementContact.SetAttribute("nom", Nom);
             elementContact.SetAttribute("prenom", Prenom);
+            elementContact.SetAttribute("image", FichierImage);
 
             XmlElement elementAdresse = doc.CreateElement("adresse");
             elementAdresse.SetAttribute("numero", NumeroCivique.ToString());

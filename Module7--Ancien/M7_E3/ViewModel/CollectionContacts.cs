@@ -1,7 +1,7 @@
-﻿using ClassesAffaire;
+﻿using Model;
 using System.Collections;
 
-namespace Contacts
+namespace ViewModel
 {
     public class CollectionContacts : IElementCourant<Contact>, IEnumerable<Contact>
     {

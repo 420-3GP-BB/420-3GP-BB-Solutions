@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace Utilitaires
+namespace Model
 {
     public interface IConversionXML
     {
